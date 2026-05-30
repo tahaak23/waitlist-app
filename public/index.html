@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La Boca Negra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       font-family: 'Inter', sans-serif;
-      background: #0a0a0a;
+      background: #000;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -17,163 +18,284 @@
       position: relative;
       overflow: hidden;
     }
-    body::before {
-      content: '';
+
+    .bg-lines {
       position: absolute;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
-      top: -100px;
-      right: -100px;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .bg-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       border-radius: 50%;
     }
-    body::after {
-      content: '';
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
-      bottom: -50px;
-      left: -50px;
-      border-radius: 50%;
-    }
+
     .card {
-      background: rgba(255,255,255,0.03);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(212,175,55,0.2);
-      border-radius: 24px;
-      padding: 48px 40px;
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(40px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 2px;
+      padding: 56px 48px;
       width: 90%;
-      max-width: 420px;
+      max-width: 440px;
       text-align: center;
       position: relative;
       z-index: 1;
     }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: -8px;
+      bottom: -8px;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 2px;
+      z-index: -1;
+    }
+
     .logo-circle {
-      width: 160px;
-      height: 160px;
-      background: #000;
+      width: 140px;
+      height: 140px;
+      background: #fff;
       border-radius: 50%;
-      margin: 0 auto 24px;
+      margin: 0 auto 32px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
     }
+
+    .logo-circle::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
     .logo-text {
       font-family: 'Playfair Display', serif;
-      color: white;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 2px;
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
       text-align: center;
-      padding: 0 16px;
+      padding: 0 12px;
+      line-height: 1.4;
     }
+
     .logo-sub {
-      color: rgba(255,255,255,0.6);
-      font-size: 7px;
+      color: rgba(0,0,0,0.5);
+      font-size: 6px;
       letter-spacing: 2px;
       text-align: center;
       margin-top: 6px;
-      padding: 0 16px;
-    }
-    .subtitle {
-      color: rgba(255,255,255,0.4);
-      font-size: 13px;
-      font-weight: 300;
-      margin-bottom: 36px;
-      letter-spacing: 2px;
+      padding: 0 12px;
       text-transform: uppercase;
     }
-    .divider {
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, #d4af37, transparent);
-      margin: 0 auto 32px;
+
+    .tagline {
+      color: rgba(255,255,255,0.2);
+      font-size: 10px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      font-weight: 200;
     }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .divider-diamond {
+      width: 6px;
+      height: 6px;
+      background: white;
+      transform: rotate(45deg);
+      opacity: 0.4;
+    }
+
     input, select {
       width: 100%;
-      padding: 14px 18px;
-      margin-bottom: 14px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(212,175,55,0.2);
-      border-radius: 10px;
-      font-size: 15px;
+      padding: 14px 20px;
+      margin-bottom: 12px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      font-size: 14px;
       color: white;
       font-family: 'Inter', sans-serif;
+      font-weight: 300;
       transition: border-color 0.3s;
+      letter-spacing: 1px;
+      border-radius: 0;
     }
-    select option { background: #1a1a1a; color: white; }
+
+    select option { background: #111; color: white; }
+
     input:focus, select:focus {
       outline: none;
-      border-color: rgba(212,175,55,0.6);
+      border-bottom-color: white;
     }
-    input::placeholder { color: rgba(255,255,255,0.3); }
+
+    input::placeholder { 
+      color: rgba(255,255,255,0.25);
+      font-weight: 200;
+      letter-spacing: 2px;
+      font-size: 12px;
+    }
+
+    select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .select-wrapper {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .select-wrapper::after {
+      content: '∨';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.3);
+      pointer-events: none;
+      font-size: 12px;
+    }
+
+    .select-wrapper select {
+      margin-bottom: 0;
+      width: 100%;
+    }
+
+    .btn-wrapper {
+      margin-top: 32px;
+      position: relative;
+    }
+
     button {
       width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #d4af37, #f0d060, #d4af37);
-      background-size: 200% auto;
-      color: #0a0a0a;
+      padding: 16px;
+      background: white;
+      color: #000;
       border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
+      border-radius: 0;
+      font-size: 11px;
+      font-weight: 500;
       cursor: pointer;
-      letter-spacing: 1px;
+      letter-spacing: 4px;
       text-transform: uppercase;
-      transition: all 0.3s;
+      transition: all 0.4s;
       font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
     }
-    button:hover {
-      background-position: right center;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(212,175,55,0.3);
+
+    button::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #000;
+      transform: translateX(-100%);
+      transition: transform 0.4s;
     }
+
+    button:hover::after { transform: translateX(0); }
+
+    button span {
+      position: relative;
+      z-index: 1;
+      transition: color 0.4s;
+    }
+
+    button:hover span { color: white; }
+
     .result {
       margin-top: 24px;
-      padding: 16px;
-      background: rgba(212,175,55,0.1);
-      border: 1px solid rgba(212,175,55,0.3);
-      border-radius: 10px;
-      color: #d4af37;
-      font-size: 14px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.8);
+      font-size: 13px;
       display: none;
-      line-height: 1.6;
-    }
-    .footer {
-      margin-top: 32px;
-      color: rgba(255,255,255,0.2);
-      font-size: 11px;
+      line-height: 1.8;
       letter-spacing: 1px;
+      font-weight: 300;
+    }
+
+    .footer {
+      margin-top: 40px;
+      color: rgba(255,255,255,0.1);
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
     }
   </style>
 </head>
 <body>
+  <div class="bg-lines"></div>
+  <div class="bg-glow"></div>
+
   <div class="card">
     <div class="logo-circle">
-      <div class="logo-text">LA BOCA NEGRA</div>
-      <div class="logo-sub">ITALIAN SPANISH RESTAURANT</div>
+      <div class="logo-text">LA BOCA<br>NEGRA</div>
+      <div class="logo-sub">Italian Spanish Restaurant</div>
     </div>
-    <p class="subtitle">Réservez votre place</p>
-    <div class="divider"></div>
+
+    <p class="tagline">Réservez votre place</p>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+
     <input type="text" id="name" placeholder="Votre nom" />
-    <input type="tel" id="phone" placeholder="Numéro WhatsApp (ex: 0612345678)" />
-    <select id="persons">
-      <option value="" disabled selected>Nombre de personnes</option>
-      <option value="1">1 personne</option>
-      <option value="2">2 personnes</option>
-      <option value="3">3 personnes</option>
-      <option value="4">4 personnes</option>
-      <option value="5">5 personnes</option>
-      <option value="6">6 personnes</option>
-      <option value="7">7 personnes</option>
-      <option value="8">8+ personnes</option>
-    </select>
-    <button onclick="joinWaitlist()">Rejoindre la file</button>
+    <input type="tel" id="phone" placeholder="Numéro WhatsApp" />
+    
+    <div class="select-wrapper">
+      <select id="persons">
+        <option value="" disabled selected>Nombre de personnes</option>
+        <option value="1">1 personne</option>
+        <option value="2">2 personnes</option>
+        <option value="3">3 personnes</option>
+        <option value="4">4 personnes</option>
+        <option value="5">5 personnes</option>
+        <option value="6">6 personnes</option>
+        <option value="7">7 personnes</option>
+        <option value="8">8+ personnes</option>
+      </select>
+    </div>
+
+    <div class="btn-wrapper">
+      <button onclick="joinWaitlist()"><span>Rejoindre la file</span></button>
+    </div>
+
     <div class="result" id="result"></div>
-    <p class="footer">Vous serez notifié par WhatsApp</p>
+    <p class="footer">Notification par WhatsApp</p>
   </div>
 
   <script>
@@ -197,7 +319,7 @@
         const data = await response.json();
         const result = document.getElementById('result');
         result.style.display = 'block';
-        result.innerHTML = `✅ ${data.message}<br><small>Vous recevrez un message WhatsApp quand votre table est prête</small>`;
+        result.innerHTML = `✦ ${data.message}<br><small style="opacity:0.5;font-size:11px;letter-spacing:2px">NOTIFICATION WHATSAPP À L'ARRIVÉE</small>`;
       } catch (err) {
         alert('Erreur: ' + err.message);
       }

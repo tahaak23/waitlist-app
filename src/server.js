@@ -2,65 +2,68 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const QRCode = require('qrcode');
-const sqlite3 = require('sqlite3').verbose();
+const { Pool } = require('pg');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Base de données
-const db = new sqlite3.Database('waitlist.db');
-db.run(`
+// Base de données PostgreSQL
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
+// Créer la table
+pool.query(`
   CREATE TABLE IF NOT EXISTS customers (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     name TEXT,
     phone TEXT,
-    restaurantId TEXT,
+    restaurant_id TEXT,
     position INTEGER,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
 `);
 
 // Client rejoint la liste d'attente
-app.post('/join', (req, res) => {
+app.post('/join', async (req, res) => {
   const { name, phone, restaurantId } = req.body;
   let formattedPhone = phone.trim();
   if (formattedPhone.startsWith('0')) {
     formattedPhone = '+212' + formattedPhone.slice(1);
   }
-  db.get('SELECT COUNT(*) as count FROM customers WHERE restaurantId = ?', [restaurantId], (err, row) => {
-    const position = row.count + 1;
-    db.run('INSERT INTO customers (name, phone, restaurantId, position) VALUES (?, ?, ?, ?)', [name, formattedPhone, restaurantId, position]);
-    res.json({ success: true, position, message: `Vous êtes numéro ${position} dans la file` });
-  });
+  const count = await pool.query('SELECT COUNT(*) FROM customers WHERE restaurant_id = $1', [restaurantId]);
+  const position = parseInt(count.rows[0].count) + 1;
+  await pool.query('INSERT INTO customers (name, phone, restaurant_id, position) VALUES ($1, $2, $3, $4)', [name, formattedPhone, restaurantId, position]);
+  res.json({ success: true, position, message: `Vous êtes numéro ${position} dans la file` });
 });
 
 // Restaurant marque une table comme libre
-app.post('/table-free', (req, res) => {
+app.post('/table-free', async (req, res) => {
   const { restaurantId } = req.body;
-  db.get('SELECT * FROM customers WHERE restaurantId = ? ORDER BY position ASC LIMIT 1', [restaurantId], (err, next) => {
-    if (next) {
-      db.run('DELETE FROM customers WHERE id = ?', [next.id]);
-      const twilio = require('twilio');
-      const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-      client.messages.create({
-        from: process.env.TWILIO_WHATSAPP_FROM,
-        to: `whatsapp:${next.phone}`,
-        body: `Bonjour ${next.name} ! 🎉 Votre table est prête, vous pouvez entrer maintenant !`
-      });
-      res.json({ success: true, notified: next });
-    } else {
-      res.json({ success: false, message: 'Pas de clients en attente' });
-    }
-  });
+  const result = await pool.query('SELECT * FROM customers WHERE restaurant_id = $1 ORDER BY position ASC LIMIT 1', [restaurantId]);
+  const next = result.rows[0];
+  if (next) {
+    await pool.query('DELETE FROM customers WHERE id = $1', [next.id]);
+    const twilio = require('twilio');
+    const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+    client.messages.create({
+      from: process.env.TWILIO_WHATSAPP_FROM,
+      to: `whatsapp:${next.phone}`,
+      body: `Bonjour ${next.name} ! 🎉 Votre table est prête, vous pouvez entrer maintenant !`
+    });
+    res.json({ success: true, notified: next });
+  } else {
+    res.json({ success: false, message: 'Pas de clients en attente' });
+  }
 });
 
 // Voir la liste d'attente
-app.get('/waitlist/:restaurantId', (req, res) => {
-  db.all('SELECT * FROM customers WHERE restaurantId = ? ORDER BY position ASC', [req.params.restaurantId], (err, rows) => {
-    res.json(rows);
-  });
+app.get('/waitlist/:restaurantId', async (req, res) => {
+  const result = await pool.query('SELECT * FROM customers WHERE restaurant_id = $1 ORDER BY position ASC', [req.params.restaurantId]);
+  res.json(result.rows);
 });
 
 // Générer le QR code

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Restaurant</title>
+  <title>La Boca Negra — Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,6 +23,12 @@
       color: #d4af37;
       font-size: 32px;
       letter-spacing: 1px;
+    }
+    .restaurant-name {
+      font-family: 'Playfair Display', serif;
+      color: white;
+      font-size: 18px;
+      margin-top: 4px;
     }
     .subtitle {
       color: rgba(255,255,255,0.3);
@@ -62,22 +68,40 @@
       letter-spacing: 2px;
       margin-top: 4px;
     }
+    .notify-section {
+      max-width: 700px;
+      margin: 0 auto 32px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .table-input {
+      flex: 1;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(212,175,55,0.2);
+      border-radius: 10px;
+      font-size: 15px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    .table-input::placeholder { color: rgba(255,255,255,0.3); }
+    .table-input:focus { outline: none; border-color: rgba(212,175,55,0.6); }
     .btn {
-      display: block;
-      margin: 0 auto 40px;
-      padding: 16px 40px;
+      padding: 14px 28px;
       background: linear-gradient(135deg, #d4af37, #f0d060, #d4af37);
       background-size: 200% auto;
       color: #0a0a0a;
       border: none;
-      border-radius: 12px;
-      font-size: 15px;
+      border-radius: 10px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       letter-spacing: 1px;
       text-transform: uppercase;
       transition: all 0.3s;
       font-family: 'Inter', sans-serif;
+      white-space: nowrap;
     }
     .btn:hover {
       transform: translateY(-2px);
@@ -115,6 +139,14 @@
       font-family: 'Playfair Display', serif;
       font-size: 20px;
     }
+    .persons-badge {
+      background: rgba(212,175,55,0.15);
+      color: #d4af37;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      border: 1px solid rgba(212,175,55,0.3);
+    }
     .empty {
       text-align: center;
       color: rgba(255,255,255,0.2);
@@ -127,7 +159,8 @@
 <body>
   <div class="header">
     <div class="logo">🍽️</div>
-    <h1>Dashboard Restaurant</h1>
+    <h1>Dashboard</h1>
+    <p class="restaurant-name">La Boca Negra</p>
     <p class="subtitle">Gestion de la file d'attente</p>
     <div class="divider"></div>
   </div>
@@ -137,9 +170,16 @@
       <div class="stat-number" id="count">0</div>
       <div class="stat-label">En attente</div>
     </div>
+    <div class="stat">
+      <div class="stat-number" id="persons-count">0</div>
+      <div class="stat-label">Personnes</div>
+    </div>
   </div>
 
-  <button class="btn" onclick="tableLibre()">✅ Table libre — Notifier le prochain</button>
+  <div class="notify-section">
+    <input type="text" class="table-input" id="table-number" placeholder="Numéro de table (ex: 5)" />
+    <button class="btn" onclick="tableLibre()">✅ Table libre</button>
+  </div>
 
   <div class="table-container">
     <table>
@@ -148,10 +188,11 @@
           <th>#</th>
           <th>Nom</th>
           <th>Téléphone</th>
+          <th>Personnes</th>
         </tr>
       </thead>
       <tbody id="waitlist-body">
-        <tr><td colspan="3" class="empty">Chargement...</td></tr>
+        <tr><td colspan="4" class="empty">Chargement...</td></tr>
       </tbody>
     </table>
   </div>
@@ -164,9 +205,12 @@
       const data = await res.json();
       const tbody = document.getElementById('waitlist-body');
       document.getElementById('count').textContent = data.length;
+      
+      const totalPersons = data.reduce((sum, c) => sum + (parseInt(c.persons) || 1), 0);
+      document.getElementById('persons-count').textContent = totalPersons;
 
       if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun client en attente</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="empty">Aucun client en attente</td></tr>';
         return;
       }
 
@@ -175,19 +219,27 @@
           <td class="position">${i + 1}</td>
           <td>${c.name}</td>
           <td>${c.phone}</td>
+          <td><span class="persons-badge">${c.persons || 1} pers.</span></td>
         </tr>
       `).join('');
     }
 
     async function tableLibre() {
+      const tableNumber = document.getElementById('table-number').value;
+      if (!tableNumber) {
+        alert('Veuillez entrer le numéro de table');
+        return;
+      }
+
       const res = await fetch('https://waitlist-app-s8lr.onrender.com/table-free', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ restaurantId: RESTAURANT_ID })
+        body: JSON.stringify({ restaurantId: RESTAURANT_ID, tableNumber })
       });
       const data = await res.json();
       if (data.success) {
-        alert(`✅ ${data.notified.name} a été notifié !`);
+        alert(`✅ ${data.notified.name} a été notifié — Table ${tableNumber} !`);
+        document.getElementById('table-number').value = '';
         loadWaitlist();
       } else {
         alert('Pas de clients en attente');

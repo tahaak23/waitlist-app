@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File d'attente</title>
+  <title>La Boca Negra</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,17 +49,34 @@
       position: relative;
       z-index: 1;
     }
-    .logo {
-      font-size: 32px;
-      margin-bottom: 8px;
+    .logo-circle {
+      width: 160px;
+      height: 160px;
+      background: #000;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.1);
     }
-    h1 {
+    .logo-text {
       font-family: 'Playfair Display', serif;
-      color: #d4af37;
-      font-size: 28px;
+      color: white;
+      font-size: 13px;
       font-weight: 600;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      text-align: center;
+      padding: 0 16px;
+    }
+    .logo-sub {
+      color: rgba(255,255,255,0.6);
+      font-size: 7px;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-top: 6px;
+      padding: 0 16px;
     }
     .subtitle {
       color: rgba(255,255,255,0.4);
@@ -75,7 +92,7 @@
       background: linear-gradient(to right, transparent, #d4af37, transparent);
       margin: 0 auto 32px;
     }
-    input {
+    input, select {
       width: 100%;
       padding: 14px 18px;
       margin-bottom: 14px;
@@ -87,7 +104,8 @@
       font-family: 'Inter', sans-serif;
       transition: border-color 0.3s;
     }
-    input:focus {
+    select option { background: #1a1a1a; color: white; }
+    input:focus, select:focus {
       outline: none;
       border-color: rgba(212,175,55,0.6);
     }
@@ -134,12 +152,25 @@
 </head>
 <body>
   <div class="card">
-    <div class="logo">🍽️</div>
-    <h1>Liste d'attente</h1>
+    <div class="logo-circle">
+      <div class="logo-text">LA BOCA NEGRA</div>
+      <div class="logo-sub">ITALIAN SPANISH RESTAURANT</div>
+    </div>
     <p class="subtitle">Réservez votre place</p>
     <div class="divider"></div>
     <input type="text" id="name" placeholder="Votre nom" />
     <input type="tel" id="phone" placeholder="Numéro WhatsApp (ex: 0612345678)" />
+    <select id="persons">
+      <option value="" disabled selected>Nombre de personnes</option>
+      <option value="1">1 personne</option>
+      <option value="2">2 personnes</option>
+      <option value="3">3 personnes</option>
+      <option value="4">4 personnes</option>
+      <option value="5">5 personnes</option>
+      <option value="6">6 personnes</option>
+      <option value="7">7 personnes</option>
+      <option value="8">8+ personnes</option>
+    </select>
     <button onclick="joinWaitlist()">Rejoindre la file</button>
     <div class="result" id="result"></div>
     <p class="footer">Vous serez notifié par WhatsApp</p>
@@ -149,8 +180,9 @@
     async function joinWaitlist() {
       const name = document.getElementById('name').value;
       const phone = document.getElementById('phone').value;
+      const persons = document.getElementById('persons').value;
 
-      if (!name || !phone) {
+      if (!name || !phone || !persons) {
         alert('Veuillez remplir tous les champs');
         return;
       }
@@ -159,7 +191,7 @@
         const response = await fetch('https://waitlist-app-s8lr.onrender.com/join', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, phone, restaurantId: 'restaurant1' })
+          body: JSON.stringify({ name, phone, persons, restaurantId: 'restaurant1' })
         });
 
         const data = await response.json();

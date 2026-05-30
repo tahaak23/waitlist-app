@@ -14,19 +14,22 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-pool.query(`
-  CREATE TABLE IF NOT EXISTS customers (
-    id SERIAL PRIMARY KEY,
-    name TEXT,
-    phone TEXT,
-    persons INTEGER DEFAULT 1,
-    restaurant_id TEXT,
-    position INTEGER,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )
-`).then(() => {
-  pool.query(`ALTER TABLE customers ADD COLUMN IF NOT EXISTS persons INTEGER DEFAULT 1`).catch(() => {});
-});
+async function initDB() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS customers (
+      id SERIAL PRIMARY KEY,
+      name TEXT,
+      phone TEXT,
+      persons INTEGER DEFAULT 1,
+      restaurant_id TEXT,
+      position INTEGER,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+  await pool.query(`ALTER TABLE customers ADD COLUMN IF NOT EXISTS persons INTEGER DEFAULT 1`);
+  console.log('DB ready');
+}
+initDB();
 
 app.post('/join', async (req, res) => {
   const { name, phone, persons, restaurantId } = req.body;

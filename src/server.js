@@ -24,7 +24,9 @@ pool.query(`
     position INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
-`);
+`).then(() => {
+  pool.query(`ALTER TABLE customers ADD COLUMN IF NOT EXISTS persons INTEGER DEFAULT 1`).catch(() => {});
+});
 
 app.post('/join', async (req, res) => {
   const { name, phone, persons, restaurantId } = req.body;

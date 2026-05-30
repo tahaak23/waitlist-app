@@ -65,7 +65,7 @@
     const RESTAURANT_ID = 'restaurant1';
 
     async function loadWaitlist() {
-      const res = await fetch(`http://localhost:3000/waitlist/${RESTAURANT_ID}`);
+      const res = await fetch(`https://waitlist-app-s8lr.onrender.com/waitlist/${RESTAURANT_ID}`);
       const data = await res.json();
       const tbody = document.getElementById('waitlist-body');
 
@@ -84,7 +84,7 @@
     }
 
     async function tableLibre() {
-      const res = await fetch('http://localhost:3000/table-free', {
+      const res = await fetch('https://waitlist-app-s8lr.onrender.com/table-free', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ restaurantId: RESTAURANT_ID })

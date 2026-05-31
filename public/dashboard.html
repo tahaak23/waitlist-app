@@ -44,7 +44,6 @@
     .stat { border: 1px solid rgba(255,255,255,0.08); padding: 20px 32px; text-align: center; }
     .stat-number { font-family: 'Playfair Display', serif; font-size: 48px; color: white; font-weight: 400; }
     .stat-label { color: rgba(255,255,255,0.2); font-size: 9px; text-transform: uppercase; letter-spacing: 3px; margin-top: 8px; }
-    
     .groups { 
       display: grid; 
       grid-template-columns: 1fr 1fr; 
@@ -53,9 +52,7 @@
       margin: 0 auto;
       position: relative; z-index: 1;
     }
-    
     .group { border: 1px solid rgba(255,255,255,0.08); }
-    
     .group-header {
       display: flex; justify-content: space-between; align-items: center;
       padding: 16px 20px;
@@ -63,8 +60,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .group-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 400; }
-    .group-count { color: rgba(255,255,255,0.3); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
-    
+    .group-count { color: rgba(255,255,255,0.3); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
     .btn {
       padding: 10px 20px;
       background: white; color: #000;
@@ -76,7 +72,6 @@
     }
     .btn:hover { background: #ddd; }
     .btn:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.2); cursor: not-allowed; }
-    
     table { width: 100%; border-collapse: collapse; }
     th {
       color: rgba(255,255,255,0.2); padding: 12px 16px;
@@ -92,6 +87,7 @@
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: rgba(255,255,255,0.02); }
     .position { font-family: 'Playfair Display', serif; font-size: 20px; color: white; }
+    .time { font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 1px; margin-top: 3px; }
     .persons-badge {
       border: 1px solid rgba(255,255,255,0.12);
       color: rgba(255,255,255,0.4); padding: 2px 10px;
@@ -101,6 +97,9 @@
       text-align: center; color: rgba(255,255,255,0.1);
       padding: 32px; font-size: 10px;
       letter-spacing: 3px; text-transform: uppercase;
+    }
+    @media (max-width: 600px) {
+      .groups { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -133,7 +132,6 @@
   </div>
 
   <div class="groups">
-    <!-- 2 personnes -->
     <div class="group">
       <div class="group-header">
         <div>
@@ -148,7 +146,6 @@
       </table>
     </div>
 
-    <!-- 3-5 personnes -->
     <div class="group">
       <div class="group-header">
         <div>
@@ -163,7 +160,6 @@
       </table>
     </div>
 
-    <!-- 6-8 personnes -->
     <div class="group">
       <div class="group-header">
         <div>
@@ -178,7 +174,6 @@
       </table>
     </div>
 
-    <!-- 9+ personnes -->
     <div class="group">
       <div class="group-header">
         <div>
@@ -205,21 +200,28 @@
       return 9;
     }
 
+    function formatTime(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    }
+
     async function loadWaitlist() {
-      const res = await fetch(`https://waitlist-app-s8lr.onrender.com/waitlist/${RESTAURANT_ID}`);
-      const data = await res.json();
+      try {
+        const res = await fetch(`https://waitlist-app-s8lr.onrender.com/waitlist/${RESTAURANT_ID}`);
+        const data = await res.json();
 
-      document.getElementById('total-count').textContent = data.length;
-      const totalPersons = data.reduce((sum, c) => sum + (parseInt(c.persons) || 1), 0);
-      document.getElementById('total-persons').textContent = totalPersons;
+        document.getElementById('total-count').textContent = data.length;
+        const totalPersons = data.reduce((sum, c) => sum + (parseInt(c.persons) || 1), 0);
+        document.getElementById('total-persons').textContent = totalPersons;
 
-      const groups = { 2: [], 35: [], 68: [], 9: [] };
-      data.forEach(c => groups[getGroup(c.persons)].push(c));
+        const groups = { 2: [], 35: [], 68: [], 9: [] };
+        data.forEach(c => groups[getGroup(c.persons)].push(c));
 
-      renderGroup('group-2', 'count-2', 'btn-2', groups[2]);
-      renderGroup('group-35', 'count-35', 'btn-35', groups[35]);
-      renderGroup('group-68', 'count-68', 'btn-68', groups[68]);
-      renderGroup('group-9', 'count-9', 'btn-9', groups[9]);
+        renderGroup('group-2', 'count-2', 'btn-2', groups[2]);
+        renderGroup('group-35', 'count-35', 'btn-35', groups[35]);
+        renderGroup('group-68', 'count-68', 'btn-68', groups[68]);
+        renderGroup('group-9', 'count-9', 'btn-9', groups[9]);
+      } catch(e) { console.error(e); }
     }
 
     function renderGroup(bodyId, countId, btnId, data) {
@@ -236,7 +238,10 @@
       tbody.innerHTML = data.map((c, i) => `
         <tr>
           <td class="position">${i + 1}</td>
-          <td>${c.name}</td>
+          <td>
+            ${c.name}
+            <div class="time">${formatTime(c.created_at)}</div>
+          </td>
           <td><span class="persons-badge">${c.persons || 1}</span></td>
         </tr>
       `).join('');

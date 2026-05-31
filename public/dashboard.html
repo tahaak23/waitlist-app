@@ -4,16 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La Boca Negra — Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
       background: #000;
       min-height: 100vh;
-      padding: 48px 24px;
-      position: relative;
-      overflow-x: hidden;
+      padding: 40px 24px;
+      color: white;
     }
     .bg-lines {
       position: fixed;
@@ -24,193 +23,84 @@
       background-size: 60px 60px;
       pointer-events: none;
     }
-    .header {
-      text-align: center;
-      margin-bottom: 48px;
-      position: relative;
-      z-index: 1;
-    }
+    .header { text-align: center; margin-bottom: 40px; position: relative; z-index: 1; }
     .logo-circle {
-      width: 100px;
-      height: 100px;
-      background: #fff;
-      border-radius: 50%;
-      margin: 0 auto 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
+      width: 100px; height: 100px; background: #fff;
+      border-radius: 50%; margin: 0 auto 24px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
     }
-    .logo-circle::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-    .logo-text {
-      font-family: 'Playfair Display', serif;
-      color: #000;
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-align: center;
-      line-height: 1.4;
-    }
-    .logo-sub {
-      color: rgba(0,0,0,0.4);
-      font-size: 5px;
-      letter-spacing: 1px;
-      margin-top: 4px;
-    }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      color: white;
-      font-size: 28px;
-      font-weight: 400;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
-    }
-    .subtitle {
-      color: rgba(255,255,255,0.2);
-      font-size: 10px;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-    }
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      max-width: 300px;
-      margin: 24px auto;
-    }
+    .logo-text { font-family: 'Playfair Display', serif; color: #000; font-size: 8px; font-weight: 700; letter-spacing: 2px; text-align: center; line-height: 1.4; }
+    .logo-sub { color: rgba(0,0,0,0.4); font-size: 5px; letter-spacing: 1px; margin-top: 4px; }
+    h1 { font-family: 'Playfair Display', serif; color: white; font-size: 28px; font-weight: 400; letter-spacing: 2px; margin-bottom: 4px; }
+    .subtitle { color: rgba(255,255,255,0.2); font-size: 10px; letter-spacing: 5px; text-transform: uppercase; }
+    .divider { display: flex; align-items: center; gap: 16px; max-width: 300px; margin: 20px auto; }
     .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
     .divider-diamond { width: 5px; height: 5px; background: white; transform: rotate(45deg); opacity: 0.3; }
     .stats {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 40px;
-      position: relative;
-      z-index: 1;
+      display: flex; justify-content: center; gap: 16px;
+      margin-bottom: 40px; position: relative; z-index: 1;
     }
-    .stat {
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 24px 40px;
-      text-align: center;
-    }
-    .stat-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 48px;
-      color: white;
-      font-weight: 400;
-    }
-    .stat-label {
-      color: rgba(255,255,255,0.2);
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-top: 8px;
-    }
-    .notify-section {
-      max-width: 700px;
-      margin: 0 auto 40px;
-      display: flex;
-      gap: 0;
-      position: relative;
-      z-index: 1;
-    }
-    .table-input {
-      flex: 1;
-      padding: 16px 24px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-right: none;
-      font-size: 13px;
-      color: white;
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      letter-spacing: 2px;
-    }
-    .table-input::placeholder { color: rgba(255,255,255,0.2); font-size: 11px; letter-spacing: 3px; }
-    .table-input:focus { outline: none; border-color: rgba(255,255,255,0.3); }
-    .btn {
-      padding: 16px 32px;
-      background: white;
-      color: #000;
-      border: none;
-      font-size: 10px;
-      font-weight: 500;
-      cursor: pointer;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
-      white-space: nowrap;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: #222;
-      transform: translateX(-100%);
-      transition: transform 0.3s;
-    }
-    .btn:hover::after { transform: translateX(0); }
-    .btn span { position: relative; z-index: 1; transition: color 0.3s; }
-    .btn:hover span { color: white; }
-    .table-container {
-      max-width: 700px;
+    .stat { border: 1px solid rgba(255,255,255,0.08); padding: 20px 32px; text-align: center; }
+    .stat-number { font-family: 'Playfair Display', serif; font-size: 48px; color: white; font-weight: 400; }
+    .stat-label { color: rgba(255,255,255,0.2); font-size: 9px; text-transform: uppercase; letter-spacing: 3px; margin-top: 8px; }
+    
+    .groups { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 24px; 
+      max-width: 1000px; 
       margin: 0 auto;
-      border: 1px solid rgba(255,255,255,0.08);
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
     }
-    table { width: 100%; border-collapse: collapse; }
-    th {
+    
+    .group { border: 1px solid rgba(255,255,255,0.08); }
+    
+    .group-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 20px;
       background: rgba(255,255,255,0.03);
-      color: rgba(255,255,255,0.3);
-      padding: 16px 24px;
-      text-align: left;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      font-weight: 400;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
+    .group-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 400; }
+    .group-count { color: rgba(255,255,255,0.3); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+    
+    .btn {
+      padding: 10px 20px;
+      background: white; color: #000;
+      border: none; font-size: 9px;
+      font-weight: 600; cursor: pointer;
+      letter-spacing: 2px; text-transform: uppercase;
+      transition: all 0.3s; font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+    .btn:hover { background: #ddd; }
+    .btn:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.2); cursor: not-allowed; }
+    
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      color: rgba(255,255,255,0.2); padding: 12px 16px;
+      text-align: left; font-size: 9px;
+      text-transform: uppercase; letter-spacing: 3px;
+      font-weight: 400; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
     td {
-      padding: 18px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      color: rgba(255,255,255,0.7);
-      font-size: 13px;
-      font-weight: 300;
-      letter-spacing: 1px;
+      padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.7); font-size: 13px;
+      font-weight: 300; letter-spacing: 1px;
     }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: rgba(255,255,255,0.02); }
-    .position {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      color: white;
-      font-weight: 400;
-    }
+    .position { font-family: 'Playfair Display', serif; font-size: 20px; color: white; }
     .persons-badge {
-      border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.5);
-      padding: 3px 12px;
-      font-size: 11px;
-      letter-spacing: 2px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.4); padding: 2px 10px;
+      font-size: 10px; letter-spacing: 2px;
     }
     .empty {
-      text-align: center;
-      color: rgba(255,255,255,0.1);
-      padding: 64px;
-      font-size: 11px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
+      text-align: center; color: rgba(255,255,255,0.1);
+      padding: 32px; font-size: 10px;
+      letter-spacing: 3px; text-transform: uppercase;
     }
   </style>
 </head>
@@ -233,49 +123,113 @@
 
   <div class="stats">
     <div class="stat">
-      <div class="stat-number" id="count">0</div>
+      <div class="stat-number" id="total-count">0</div>
       <div class="stat-label">En attente</div>
     </div>
     <div class="stat">
-      <div class="stat-number" id="persons-count">0</div>
+      <div class="stat-number" id="total-persons">0</div>
       <div class="stat-label">Personnes</div>
     </div>
   </div>
 
-  <div class="notify-section">
-    <input type="text" class="table-input" id="table-number" placeholder="Numéro de table" />
-    <button class="btn" onclick="tableLibre()"><span>Table libre</span></button>
-  </div>
+  <div class="groups">
+    <!-- 2 personnes -->
+    <div class="group">
+      <div class="group-header">
+        <div>
+          <div class="group-title">2 Personnes</div>
+          <div class="group-count"><span id="count-2">0</span> en attente</div>
+        </div>
+        <button class="btn" onclick="tableLibre(2)" id="btn-2">Table libre</button>
+      </div>
+      <table>
+        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th></tr></thead>
+        <tbody id="group-2"><tr><td colspan="3" class="empty">Aucun</td></tr></tbody>
+      </table>
+    </div>
 
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nom</th>
-          <th>Téléphone</th>
-          <th>Personnes</th>
-        </tr>
-      </thead>
-      <tbody id="waitlist-body">
-        <tr><td colspan="4" class="empty">Chargement...</td></tr>
-      </tbody>
-    </table>
+    <!-- 3-5 personnes -->
+    <div class="group">
+      <div class="group-header">
+        <div>
+          <div class="group-title">3 — 5 Personnes</div>
+          <div class="group-count"><span id="count-35">0</span> en attente</div>
+        </div>
+        <button class="btn" onclick="tableLibre(35)" id="btn-35">Table libre</button>
+      </div>
+      <table>
+        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th></tr></thead>
+        <tbody id="group-35"><tr><td colspan="3" class="empty">Aucun</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- 6-8 personnes -->
+    <div class="group">
+      <div class="group-header">
+        <div>
+          <div class="group-title">6 — 8 Personnes</div>
+          <div class="group-count"><span id="count-68">0</span> en attente</div>
+        </div>
+        <button class="btn" onclick="tableLibre(68)" id="btn-68">Table libre</button>
+      </div>
+      <table>
+        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th></tr></thead>
+        <tbody id="group-68"><tr><td colspan="3" class="empty">Aucun</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- 9+ personnes -->
+    <div class="group">
+      <div class="group-header">
+        <div>
+          <div class="group-title">9+ Personnes</div>
+          <div class="group-count"><span id="count-9">0</span> en attente</div>
+        </div>
+        <button class="btn" onclick="tableLibre(9)" id="btn-9">Table libre</button>
+      </div>
+      <table>
+        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th></tr></thead>
+        <tbody id="group-9"><tr><td colspan="3" class="empty">Aucun</td></tr></tbody>
+      </table>
+    </div>
   </div>
 
   <script>
     const RESTAURANT_ID = 'restaurant1';
 
+    function getGroup(persons) {
+      const p = parseInt(persons) || 1;
+      if (p <= 2) return 2;
+      if (p <= 5) return 35;
+      if (p <= 8) return 68;
+      return 9;
+    }
+
     async function loadWaitlist() {
       const res = await fetch(`https://waitlist-app-s8lr.onrender.com/waitlist/${RESTAURANT_ID}`);
       const data = await res.json();
-      const tbody = document.getElementById('waitlist-body');
-      document.getElementById('count').textContent = data.length;
+
+      document.getElementById('total-count').textContent = data.length;
       const totalPersons = data.reduce((sum, c) => sum + (parseInt(c.persons) || 1), 0);
-      document.getElementById('persons-count').textContent = totalPersons;
+      document.getElementById('total-persons').textContent = totalPersons;
+
+      const groups = { 2: [], 35: [], 68: [], 9: [] };
+      data.forEach(c => groups[getGroup(c.persons)].push(c));
+
+      renderGroup('group-2', 'count-2', 'btn-2', groups[2]);
+      renderGroup('group-35', 'count-35', 'btn-35', groups[35]);
+      renderGroup('group-68', 'count-68', 'btn-68', groups[68]);
+      renderGroup('group-9', 'count-9', 'btn-9', groups[9]);
+    }
+
+    function renderGroup(bodyId, countId, btnId, data) {
+      const tbody = document.getElementById(bodyId);
+      const btn = document.getElementById(btnId);
+      document.getElementById(countId).textContent = data.length;
+      btn.disabled = data.length === 0;
 
       if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="empty">Aucun client en attente</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun</td></tr>';
         return;
       }
 
@@ -283,30 +237,30 @@
         <tr>
           <td class="position">${i + 1}</td>
           <td>${c.name}</td>
-          <td>${c.phone}</td>
-          <td><span class="persons-badge">${c.persons || 1} pers.</span></td>
+          <td><span class="persons-badge">${c.persons || 1}</span></td>
         </tr>
       `).join('');
     }
 
-    async function tableLibre() {
-      const tableNumber = document.getElementById('table-number').value;
-      if (!tableNumber) {
-        alert('Veuillez entrer le numéro de table');
-        return;
-      }
-      const res = await fetch('https://waitlist-app-s8lr.onrender.com/table-free', {
+    async function tableLibre(group) {
+      const groupMap = { 2: [1,2], 35: [3,4,5], 68: [6,7,8], 9: [9,10,11,12] };
+      const range = groupMap[group];
+
+      const res = await fetch(`https://waitlist-app-s8lr.onrender.com/waitlist/${RESTAURANT_ID}`);
+      const data = await res.json();
+      const next = data.find(c => range.includes(parseInt(c.persons) || 1));
+
+      if (!next) { alert('Aucun client en attente dans ce groupe'); return; }
+
+      const res2 = await fetch('https://waitlist-app-s8lr.onrender.com/table-free', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ restaurantId: RESTAURANT_ID, tableNumber })
+        body: JSON.stringify({ restaurantId: RESTAURANT_ID, customerId: next.id })
       });
-      const data = await res.json();
-      if (data.success) {
-        alert(`✦ ${data.notified.name} — Table ${tableNumber} est prête !`);
-        document.getElementById('table-number').value = '';
+      const result = await res2.json();
+      if (result.success) {
+        alert(`✦ ${result.notified.name} a été notifié !`);
         loadWaitlist();
-      } else {
-        alert('Aucun client en attente');
       }
     }
 

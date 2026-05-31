@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
     body {
       font-family: 'Inter', sans-serif;
       background: #000;
@@ -18,16 +17,14 @@
       position: relative;
       overflow: hidden;
     }
-
     .bg-lines {
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
       background-size: 60px 60px;
     }
-
     .bg-glow {
       position: absolute;
       width: 500px;
@@ -38,7 +35,6 @@
       transform: translate(-50%, -50%);
       border-radius: 50%;
     }
-
     .card {
       background: rgba(255,255,255,0.02);
       backdrop-filter: blur(40px);
@@ -51,91 +47,51 @@
       position: relative;
       z-index: 1;
     }
-
     .card::before {
       content: '';
       position: absolute;
-      top: 8px;
-      left: 8px;
-      right: -8px;
-      bottom: -8px;
+      top: 8px; left: 8px; right: -8px; bottom: -8px;
       border: 1px solid rgba(255,255,255,0.04);
       border-radius: 2px;
       z-index: -1;
     }
-
     .logo-circle {
-      width: 140px;
-      height: 140px;
-      background: #fff;
-      border-radius: 50%;
+      width: 140px; height: 140px;
+      background: #fff; border-radius: 50%;
       margin: 0 auto 32px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
       position: relative;
     }
-
     .logo-circle::after {
       content: '';
       position: absolute;
-      inset: -4px;
-      border-radius: 50%;
+      inset: -4px; border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.2);
     }
-
     .logo-text {
       font-family: 'Playfair Display', serif;
-      color: #000;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-align: center;
-      padding: 0 12px;
-      line-height: 1.4;
+      color: #000; font-size: 11px; font-weight: 700;
+      letter-spacing: 3px; text-align: center;
+      padding: 0 12px; line-height: 1.4;
     }
-
     .logo-sub {
-      color: rgba(0,0,0,0.5);
-      font-size: 6px;
-      letter-spacing: 2px;
-      text-align: center;
-      margin-top: 6px;
-      padding: 0 12px;
+      color: rgba(0,0,0,0.5); font-size: 6px;
+      letter-spacing: 2px; text-align: center;
+      margin-top: 6px; padding: 0 12px;
       text-transform: uppercase;
     }
-
     .tagline {
-      color: rgba(255,255,255,0.2);
-      font-size: 10px;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      margin-bottom: 40px;
-      font-weight: 200;
+      color: rgba(255,255,255,0.2); font-size: 10px;
+      letter-spacing: 6px; text-transform: uppercase;
+      margin-bottom: 40px; font-weight: 200;
     }
-
     .divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 36px;
+      display: flex; align-items: center;
+      gap: 16px; margin-bottom: 36px;
     }
-
-    .divider-line {
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.1);
-    }
-
-    .divider-diamond {
-      width: 6px;
-      height: 6px;
-      background: white;
-      transform: rotate(45deg);
-      opacity: 0.4;
-    }
-
+    .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+    .divider-diamond { width: 6px; height: 6px; background: white; transform: rotate(45deg); opacity: 0.4; }
     input, select {
       width: 100%;
       padding: 14px 20px;
@@ -143,115 +99,82 @@
       background: transparent;
       border: none;
       border-bottom: 1px solid rgba(255,255,255,0.15);
-      font-size: 14px;
-      color: white;
+      font-size: 14px; color: white;
       font-family: 'Inter', sans-serif;
-      font-weight: 300;
+      font-weight: 300; letter-spacing: 1px;
       transition: border-color 0.3s;
-      letter-spacing: 1px;
       border-radius: 0;
     }
-
     select option { background: #111; color: white; }
-
     input:focus, select:focus {
       outline: none;
       border-bottom-color: white;
     }
-
-    input::placeholder { 
-      color: rgba(255,255,255,0.25);
-      font-weight: 200;
-      letter-spacing: 2px;
-      font-size: 12px;
-    }
-
-    select {
-      appearance: none;
-      cursor: pointer;
-    }
-
-    .select-wrapper {
-      position: relative;
-      margin-bottom: 12px;
-    }
-
+    input::placeholder { color: rgba(255,255,255,0.25); font-weight: 200; letter-spacing: 2px; font-size: 12px; }
+    select { appearance: none; cursor: pointer; }
+    .select-wrapper { position: relative; margin-bottom: 12px; }
     .select-wrapper::after {
-      content: '∨';
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: rgba(255,255,255,0.3);
-      pointer-events: none;
-      font-size: 12px;
+      content: '∨'; position: absolute;
+      right: 20px; top: 50%; transform: translateY(-50%);
+      color: rgba(255,255,255,0.3); pointer-events: none; font-size: 12px;
     }
-
-    .select-wrapper select {
-      margin-bottom: 0;
-      width: 100%;
+    .select-wrapper select { margin-bottom: 0; width: 100%; }
+    .phone-row {
+      display: flex; gap: 0; margin-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      transition: border-color 0.3s;
     }
-
-    .btn-wrapper {
-      margin-top: 32px;
-      position: relative;
+    .phone-row:focus-within { border-bottom-color: white; }
+    .phone-row select {
+      width: 110px; flex-shrink: 0;
+      border-bottom: none; margin-bottom: 0;
+      font-size: 12px; padding: 14px 8px;
+      border-right: 1px solid rgba(255,255,255,0.1);
     }
-
+    .phone-row input {
+      flex: 1; border-bottom: none;
+      margin-bottom: 0; padding-left: 16px;
+    }
+    .btn-wrapper { margin-top: 32px; position: relative; }
     button {
-      width: 100%;
-      padding: 16px;
-      background: white;
-      color: #000;
-      border: none;
-      border-radius: 0;
-      font-size: 11px;
-      font-weight: 500;
-      cursor: pointer;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      transition: all 0.4s;
+      width: 100%; padding: 16px;
+      background: white; color: #000;
+      border: none; border-radius: 0;
+      font-size: 11px; font-weight: 500;
+      cursor: pointer; letter-spacing: 4px;
+      text-transform: uppercase; transition: all 0.4s;
       font-family: 'Inter', sans-serif;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
     button::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: #000;
-      transform: translateX(-100%);
+      content: ''; position: absolute; inset: 0;
+      background: #000; transform: translateX(-100%);
       transition: transform 0.4s;
     }
-
     button:hover::after { transform: translateX(0); }
-
-    button span {
-      position: relative;
-      z-index: 1;
-      transition: color 0.4s;
-    }
-
+    button span { position: relative; z-index: 1; transition: color 0.4s; }
     button:hover span { color: white; }
-
     .result {
-      margin-top: 24px;
-      padding: 20px;
+      margin-top: 24px; padding: 20px;
       border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.8);
-      font-size: 13px;
-      display: none;
-      line-height: 1.8;
-      letter-spacing: 1px;
-      font-weight: 300;
+      color: rgba(255,255,255,0.8); font-size: 13px;
+      display: none; line-height: 1.8;
+      letter-spacing: 1px; font-weight: 300;
     }
-
+    .menu-link {
+      display: block; margin-top: 24px;
+      color: rgba(255,255,255,0.3); font-size: 10px;
+      letter-spacing: 3px; text-transform: uppercase;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 4px; width: fit-content;
+      margin-left: auto; margin-right: auto;
+      transition: color 0.3s;
+    }
+    .menu-link:hover { color: white; }
     .footer {
-      margin-top: 40px;
-      color: rgba(255,255,255,0.1);
-      font-size: 9px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      margin-top: 16px; color: rgba(255,255,255,0.1);
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
     }
   </style>
 </head>
@@ -274,8 +197,26 @@
     </div>
 
     <input type="text" id="name" placeholder="Votre nom" />
-    <input type="tel" id="phone" placeholder="Numéro WhatsApp" />
-    
+
+    <div class="phone-row">
+      <select id="country-code">
+        <option value="+212">🇲🇦 +212</option>
+        <option value="+33">🇫🇷 +33</option>
+        <option value="+34">🇪🇸 +34</option>
+        <option value="+31">🇳🇱 +31</option>
+        <option value="+32">🇧🇪 +32</option>
+        <option value="+39">🇮🇹 +39</option>
+        <option value="+44">🇬🇧 +44</option>
+        <option value="+49">🇩🇪 +49</option>
+        <option value="+1">🇺🇸 +1</option>
+        <option value="+966">🇸🇦 +966</option>
+        <option value="+971">🇦🇪 +971</option>
+        <option value="+216">🇹🇳 +216</option>
+        <option value="+213">🇩🇿 +213</option>
+      </select>
+      <input type="tel" id="phone" placeholder="Numéro WhatsApp" />
+    </div>
+
     <div class="select-wrapper">
       <select id="persons">
         <option value="" disabled selected>Nombre de personnes</option>
@@ -286,8 +227,8 @@
         <option value="5">5 personnes</option>
         <option value="6">6 personnes</option>
         <option value="7">7 personnes</option>
-       <option value="8">8 personnes</option>
-<option value="9">9+ personnes</option>
+        <option value="8">8 personnes</option>
+        <option value="9">9+ personnes</option>
       </select>
     </div>
 
@@ -296,19 +237,30 @@
     </div>
 
     <div class="result" id="result"></div>
-    <a href="/menu.html" style="display:block;margin-top:24px;color:rgba(255,255,255,0.3);font-size:10px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px;width:fit-content;margin-left:auto;margin-right:auto">Voir le menu →</a>
-<p class="footer" style="margin-top:16px">Notification par WhatsApp</p>
+    <a href="/menu.html" class="menu-link">Voir le menu →</a>
+    <p class="footer">Notification par WhatsApp</p>
   </div>
 
   <script>
     async function joinWaitlist() {
       const name = document.getElementById('name').value;
-      const phone = document.getElementById('phone').value;
+      const countryCode = document.getElementById('country-code').value;
+      const phoneRaw = document.getElementById('phone').value.trim();
       const persons = document.getElementById('persons').value;
 
-      if (!name || !phone || !persons) {
+      if (!name || !phoneRaw || !persons) {
         alert('Veuillez remplir tous les champs');
         return;
+      }
+
+      // Construire le numéro complet
+      let phone = phoneRaw;
+      if (countryCode === '+212') {
+        // Pour le Maroc, enlever le 0 initial si présent
+        if (phone.startsWith('0')) phone = phone.slice(1);
+        phone = countryCode + phone;
+      } else {
+        phone = countryCode + phone;
       }
 
       try {

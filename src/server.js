@@ -54,7 +54,7 @@ app.post('/table-free', async (req, res) => {
     client.messages.create({
       from: process.env.TWILIO_WHATSAPP_FROM,
       to: `whatsapp:${next.phone}`,
-      body: `Bonjour ${next.name} ! 🎉 Votre table est prête — Table numéro ${tableNumber}. Vous pouvez entrer maintenant chez La Boca Negra !`
+      body: `Bonjour ${next.name} ! 🎉 Votre table est prête — Table numéro ${tableNumber}. Vous pouvez entrer maintenant chez La Boca Negra !\n\n• Vous disposez de 5 minutes pour vous présenter, passé ce délai votre table sera annulée.\n• After 5 minutes no show, your table will be cancelled.\n• Después de 5 minutos sin presentarse, su mesa será cancelada.`
     });
     res.json({ success: true, notified: next });
   } else {

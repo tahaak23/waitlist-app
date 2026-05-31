@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Boca Negra — Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: white;
+      padding: 40px 24px;
+    }
+    .bg-lines {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .container { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+    .header { text-align: center; margin-bottom: 56px; }
+    .logo-circle {
+      width: 120px; height: 120px; background: #fff;
+      border-radius: 50%; margin: 0 auto 24px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+    }
+    .logo-text { font-family: 'Playfair Display', serif; color: #000; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-align: center; line-height: 1.4; }
+    .logo-sub { color: rgba(0,0,0,0.4); font-size: 6px; letter-spacing: 1px; margin-top: 4px; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; letter-spacing: 2px; margin-bottom: 8px; }
+    .subtitle { color: rgba(255,255,255,0.2); font-size: 10px; letter-spacing: 5px; text-transform: uppercase; }
+    .divider { display: flex; align-items: center; gap: 16px; margin: 24px auto; max-width: 200px; }
+    .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+    .divider-diamond { width: 5px; height: 5px; background: white; transform: rotate(45deg); opacity: 0.3; }
+    .back-btn {
+      display: inline-block; margin-bottom: 40px;
+      color: rgba(255,255,255,0.3); font-size: 11px;
+      letter-spacing: 3px; text-transform: uppercase;
+      text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 4px; transition: color 0.3s;
+    }
+    .back-btn:hover { color: white; }
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 400;
+      letter-spacing: 2px; margin-bottom: 4px;
+      color: white;
+    }
+    .section-subtitle {
+      color: rgba(255,255,255,0.3); font-size: 10px;
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .section-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 20px; }
+    .item {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      gap: 16px;
+    }
+    .item:last-child { border-bottom: none; }
+    .item-info { flex: 1; }
+    .item-name {
+      font-size: 14px; color: rgba(255,255,255,0.85);
+      font-weight: 300; letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .item-desc {
+      font-size: 11px; color: rgba(255,255,255,0.3);
+      font-weight: 200; line-height: 1.5; letter-spacing: 0.5px;
+    }
+    .item-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px; color: white;
+      white-space: nowrap; font-weight: 400;
+    }
+    .special-box {
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 20px 24px; margin-bottom: 20px;
+      text-align: center;
+    }
+    .special-title { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 4px; }
+    .special-desc { color: rgba(255,255,255,0.4); font-size: 12px; letter-spacing: 1px; margin-bottom: 8px; }
+    .special-price { font-family: 'Playfair Display', serif; font-size: 24px; }
+    .new-badge {
+      background: white; color: black;
+      font-size: 8px; letter-spacing: 2px;
+      padding: 2px 6px; margin-left: 8px;
+      vertical-align: middle; font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-lines"></div>
+  <div class="container">
+    <div class="header">
+      <div class="logo-circle">
+        <div class="logo-text">LA BOCA<br>NEGRA</div>
+        <div class="logo-sub">Italian Spanish</div>
+      </div>
+      <h1>Notre Menu</h1>
+      <p class="subtitle">Italian Spanish Restaurant</p>
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+      </div>
+      <a href="/" class="back-btn">← Retour</a>
+    </div>
+
+    <!-- ENTRÉES -->
+    <div class="section">
+      <div class="section-title">Anti-Pasti</div>
+      <div class="section-subtitle">Entrées</div>
+      <div class="section-divider"></div>
+      <div class="special-box">
+        <div class="special-title">Bandeja de Entradas 2 pax</div>
+        <div class="special-desc">Assortiment de aperitivo 2 pax</div>
+        <div class="special-price">290 Dh</div>
+      </div>
+      <div class="item"><div class="item-info"><div class="item-name">Ensalada Rusa</div><div class="item-desc">Salade Russe</div></div><div class="item-price">70 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Patatas Bravas</div><div class="item-desc">Pommes de terre frites - sauce bravas</div></div><div class="item-price">65 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Insalata Marinara La Boca Negra</div><div class="item-desc">Salade de Fruits de Mer - sauce maison</div></div><div class="item-price">120 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Insalata Césare</div><div class="item-desc">Poulet - laitue - parmesan - sauce cesare - croutons</div></div><div class="item-price">95 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Insalata Fromaggio Di Capra</div><div class="item-desc">Fromage de chèvres caramélisé - noix - figues - sauce balsamique - roquette - épinards - avocat</div></div><div class="item-price">120 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Insalata Gata <span class="new-badge">NEW</span></div><div class="item-desc">Fromage Feta - concombre - tomates séchée - oignons - tomates - olive - origan - vinaigrette</div></div><div class="item-price">125 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Burrata</div><div class="item-desc">Fromage burrata - roquette - tomates - sauce pesto</div></div><div class="item-price">150 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Burrata Tartufata</div><div class="item-desc">Fromage burrata - roquette - truffe - tomates cerises</div></div><div class="item-price">170 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Tataki de Atún Rojo</div><div class="item-desc">Tataki au thon - tartare de thon - wasabi - citron vert - sauce asiatique</div></div><div class="item-price">165 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Tartare Di Atún Rojo</div><div class="item-desc">Tarte de thon - avocat - mangue - sauce balsamique - capres</div></div><div class="item-price">135 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Vitello Tonnato <span class="new-badge">NEW</span></div><div class="item-desc">Veau - thon frais - sauce au thon - câpres - tomates confites - parmesan - roquette</div></div><div class="item-price">145 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Carpaccio Di Manzo Classico</div><div class="item-desc">Carpaccio de boeuf - pesto au basilic - noix - parmesan - roquette</div></div><div class="item-price">135 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Carpaccio Di Manzo Al Tartufata</div><div class="item-desc">Carpaccio de boeuf - truffe - noix - parmesan - roquette</div></div><div class="item-price">145 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Carpaccio Al Tonno Rojo</div><div class="item-desc">Carpaccio de thon - câpres - citron - huile d'olive - basilic</div></div><div class="item-price">120 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Gambas La Boca Negra</div><div class="item-desc">Crevettes - huile d'olive - pil-pil - ail</div></div><div class="item-price">135 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Gamberoni Diavola <span class="new-badge">NEW</span></div><div class="item-desc">Crème sauce piquante - poireau - crevettes</div></div><div class="item-price">135 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Pulpo à la Gallega</div><div class="item-desc">Poulpe rôti - pommes de terre - huile d'olive - paprika fumé</div></div><div class="item-price">125 Dh</div></div>
+    </div>
+
+    <!-- FRITURE -->
+    <div class="section">
+      <div class="section-title">Fritos</div>
+      <div class="section-subtitle">Friture</div>
+      <div class="section-divider"></div>
+      <div class="item"><div class="item-info"><div class="item-name">Boquerones al Limon</div><div class="item-desc">Anchois - citron vert</div></div><div class="item-price">70 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Calamares al Aioli</div><div class="item-desc">Calamars - aïoli</div></div><div class="item-price">140 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Croquetas de Mariscos</div><div class="item-desc">Croquettes de Fruits de Mer - aïoli</div></div><div class="item-price">90 Dh</div></div>
+    </div>
+
+    <!-- PIZZE -->
+    <div class="section">
+      <div class="section-title">Pizze</div>
+      <div class="section-subtitle">Pizzas</div>
+      <div class="section-divider"></div>
+      <div class="item"><div class="item-info"><div class="item-name">Margherita</div><div class="item-desc">Sauce tomate - mozzarella fior di latte - origan</div></div><div class="item-price">75 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Vegetariana</div><div class="item-desc">Sauce tomate - fromage mozzarella fior di latte - légumes variés</div></div><div class="item-price">90 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Tonno E Cipolla</div><div class="item-desc">Sauce tomate - mozzarella fior di latte - thon - tomates cerises - oignon rouge</div></div><div class="item-price">105 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Carciofo</div><div class="item-desc">Sauce tomate - mozzarella fior di latte - artichaut - tomates cerises et confit - roquette - fromage parmesan</div></div><div class="item-price">95 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Quattro Formaggi</div><div class="item-desc">Sauce tomate - quatre fromage au sauce tomate - miel</div></div><div class="item-price">110 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Portofino</div><div class="item-desc">Sauce tomate - mozzarella fior di latte - viande hachée aux herbes de provences</div></div><div class="item-price">115 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Pollo Piccante</div><div class="item-desc">Sauce blanche - mozzarella fior di latte - filet de poulet - huile piquante - roquette - origan</div></div><div class="item-price">115 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Pollo Bbq</div><div class="item-desc">Sauce mozzarella fior di latte - sauce texas barbecue et origan</div></div><div class="item-price">115 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Stracciatella Versace</div><div class="item-desc">Sauce tomate - basilique - fromage stracciatella - sauce pesto</div></div><div class="item-price">130 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Salmone</div><div class="item-desc">Sauce blanche - saumon fumé - câpres - roquette - mozarella fior di latte</div></div><div class="item-price">140 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Pescatore</div><div class="item-desc">Sauce tomate - fruits de mer - mozzarella fior di latte</div></div><div class="item-price">135 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Famoso Regina</div><div class="item-desc">Sauce blanche - jambon de dinde - roquette - fromage stracciatella - champignons frais</div></div><div class="item-price">140 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Carpaccio Di Manzo</div><div class="item-desc">Sauce tomate - mozarella - carpaccio de boeuf - pesto, roquette - parmesan - noix</div></div><div class="item-price">155 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Diavola</div><div class="item-desc">Sauce tomate - mozzarella fior di latte - tomates cerises - basilique - pepperoni - fromage stracciatella</div></div><div class="item-price">145 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">La Burratina</div><div class="item-desc">Sauce tomate - roquette - tomates cerises - sauce pesto - fromage burrata</div></div><div class="item-price">165 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Burrata Tartufata</div><div class="item-desc">Sauce blanche - fromage burrata - truffe - roquette</div></div><div class="item-price">170 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Pistacchio Burrata</div><div class="item-desc">Pesto de courgettes - mozzarella fior di latte - fromage Burrata, gambas et pistache</div></div><div class="item-price">165 Dh</div></div>
+    </div>
+
+    <!-- PASTA -->
+    <div class="section">
+      <div class="section-title">Pasta</div>
+      <div class="section-subtitle">Pâtes</div>
+      <div class="section-divider"></div>
+      <div class="item"><div class="item-info"><div class="item-name">Penne Arrabiatta Burrata</div><div class="item-desc">Penne - sauce tomate piquante - fromage burrata</div></div><div class="item-price">150 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Penne Pistacchio Burrata</div><div class="item-desc">Penne - pesto de courgettes - gambas - burrata et pistache</div></div><div class="item-price">165 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Penne Tartufata Stracciatella</div><div class="item-desc">Penne à la crème - truffe et fromagé stracciatella</div></div><div class="item-price">165 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Penne Gambereti Di Mare <span class="new-badge">NEW</span></div><div class="item-desc">Penne - sauce à la crème piquante - crevettes</div></div><div class="item-price">180 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Rigatoni Al Ragu <span class="new-badge">NEW</span></div><div class="item-desc">Rigatoni - boeuf - ail - basilic</div></div><div class="item-price">180 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Linguine La Boca Negra <span class="new-badge">NEW</span></div><div class="item-desc">Sauce tomate - câpres - olives - pulpo - crevettes - les moules - palourdes</div></div><div class="item-price">180 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Linguine Gambereti Pil-pil <span class="new-badge">NEW</span></div><div class="item-desc">Linguine - huile d'olive - ail - crevettes</div></div><div class="item-price">180 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Linguine Bolognese</div><div class="item-desc">Sauce tomate - viande hachée aux herbes de provences</div></div><div class="item-price">105 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Linguine Carbonara</div><div class="item-desc">Linguine - jambon de dinde fumé - fromage parmesan et oeufs</div></div><div class="item-price">140 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Linguine Genove <span class="new-badge">NEW</span></div><div class="item-desc">Linguine - sauce pesto - stracciatella - amandes</div></div><div class="item-price">149 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Tagliatelle Alfredo</div><div class="item-desc">Tagliatelle - émincé de poulet à la crème - champignons</div></div><div class="item-price">135 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Tagliatelle Parmigiana <span class="new-badge">NEW</span></div><div class="item-desc">Tagliatelle - émincé de poulet à la crème - champignons - fromage parmesan show</div></div><div class="item-price">145 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Linguine Cardinal</div><div class="item-desc">Linguine aux crevettes - champignons - sauce à la crème</div></div><div class="item-price">165 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Tagliatelle al Salmone</div><div class="item-desc">Tagliatelle - saumon fumé - épinards - sauce rose</div></div><div class="item-price">155 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Linguine del Pescatore</div><div class="item-desc">Linguine aux fruits de mer</div></div><div class="item-price">165 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Ravioli Amore</div><div class="item-desc">Ravioli maison - ricotta - épinard - saumon fumé - parmesan - sauce rose</div></div><div class="item-price">145 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Ravioli Impero Romano</div><div class="item-desc">Ravioli maison - ricotta - sauce truffe à la crème</div></div><div class="item-price">135 Dh</div></div>
+    </div>
+
+    <!-- RISOTTO -->
+    <div class="section">
+      <div class="section-title">Risotto</div>
+      <div class="section-divider"></div>
+      <div class="item"><div class="item-info"><div class="item-name">Risotto Frutti di mare</div><div class="item-desc">Risotto aux fruits de mer</div></div><div class="item-price">165 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Risotto Pollo Tartufo</div><div class="item-desc">Risotto - truffe - poulet - sauce à la crème - fromage parmesan</div></div><div class="item-price">145 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Risotto Alfredo</div><div class="item-desc">Risotto poulet - sauce à la crème - fromage parmesan - champignons</div></div><div class="item-price">135 Dh</div></div>
+    </div>
+
+    <!-- PLATS PRINCIPAUX -->
+    <div class="section">
+      <div class="section-title">Platos Principales</div>
+      <div class="section-subtitle">Plats Principaux — Para Compartir</div>
+      <div class="section-divider"></div>
+      <div class="special-box">
+        <div class="special-title">Bandeja de Tapas 2 pax</div>
+        <div class="special-desc">Assortiment de tapas espagnoles 2 pax</div>
+        <div class="special-price">395 Dh</div>
+      </div>
+      <div class="special-box">
+        <div class="special-title">Paella con Mariscos</div>
+        <div class="special-desc">Paella aux Fruits de Mer (preparation 40 min)</div>
+        <div class="special-price">320 Dh</div>
+      </div>
+      <div class="special-box">
+        <div class="special-title">Paella Spécial con Bogavante</div>
+        <div class="special-desc">Paella Spécial - Langouste ou Homard et Fruits de Mer (30-40 min) — Prix selon marché</div>
+        <div class="special-price">Precio segun mercado</div>
+      </div>
+    </div>
+
+    <!-- POISSONS -->
+    <div class="section">
+      <div class="section-title">Pesce</div>
+      <div class="section-subtitle">Les Poissons</div>
+      <div class="section-divider"></div>
+      <div class="item"><div class="item-info"><div class="item-name">Atún Rojo a la plancha con Tomates</div><div class="item-desc">Thon grillé au tomates rôties au four - liguine pesto</div></div><div class="item-price">230 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Solomos Santorini</div><div class="item-desc">Saumon à la Feta Gratiné - riz aux épinard - pistache</div></div><div class="item-price">240 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Pez Espada a la Plancha con aceite de Ajo y Perejil</div><div class="item-desc">Espadon grillé - légumes grillés - huile d'ail et persil</div></div><div class="item-price">240 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Pesce di San Pietrо con Risotto e Truffo</div><div class="item-desc">Saint pierre - risotto au truffe</div></div><div class="item-price">320 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Lubina al horno</div><div class="item-desc">Loup de mer au four - risotto au fruits de mer</div></div><div class="item-price">260 Dh</div></div>
+    </div>
+
+    <!-- VIANDE -->
+    <div class="section">
+      <div class="section-title">Carnes</div>
+      <div class="section-subtitle">Viande</div>
+      <div class="section-divider"></div>
+      <div class="item"><div class="item-info"><div class="item-name">Solomillo de Vaca a la Parrilla</div><div class="item-desc">Filet de boeuf - légumes grillés - sauce poivres ou sauce aux champignons</div></div><div class="item-price">320 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Entrecôte de Ternera con Mantequilla</div><div class="item-desc">Entrecôte grillé - légumes grillés - sauce poivres ou sauce aux champignons</div></div><div class="item-price">280 Dh</div></div>
+    </div>
+
+    <!-- DESSERTS -->
+    <div class="section">
+      <div class="section-title">Dolci</div>
+      <div class="section-subtitle">Les Desserts</div>
+      <div class="section-divider"></div>
+      <div class="special-box">
+        <div class="special-title">Bandeja de Postres para compartir 4 à 6 Pax</div>
+        <div class="special-desc">Dessert Royale à partager 4 à 6 Pax</div>
+        <div class="special-price">350 Dh</div>
+      </div>
+      <div class="item"><div class="item-info"><div class="item-name">Crema Catalana</div><div class="item-desc">Crème Catalane - glace à la vanille</div></div><div class="item-price">70 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Pavlova</div><div class="item-desc">Exotique - glace à la vanille</div></div><div class="item-price">80 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Greek Yogurt Gelato <span class="new-badge">NEW</span></div><div class="item-desc">Grec yaourt glacé - miel - noix caramélisées - Cerises Amarena</div></div><div class="item-price">75 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">San Sebastian</div><div class="item-desc">Tarte au Fromage - sauce au chocolat / pistache - glace à la vanille</div></div><div class="item-price">75 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Tarta de Pistacchio</div><div class="item-desc">Tarte glacé de pistache</div></div><div class="item-price">85 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Tiramisu Classico / Pistacchio</div></div><div class="item-price">80 / 85 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Chocolate Fondant / Pistacchio <span class="new-badge">NEW</span></div><div class="item-desc">Fondant chocolat - glace vanille</div></div><div class="item-price">75 / 85 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Banoffee Cheesecake</div><div class="item-desc">Banane - chocolat - dulce leche</div></div><div class="item-price">80 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Profiteroles au Chocolat ou Pistache <span class="new-badge">NEW</span></div><div class="item-desc">Pâte à choux - glace vanille</div></div><div class="item-price">85 Dh</div></div>
+    </div>
+
+    <!-- BOISSONS -->
+    <div class="section">
+      <div class="section-title">Bebidas</div>
+      <div class="section-subtitle">Boissons</div>
+      <div class="section-divider"></div>
+      <div class="item"><div class="item-info"><div class="item-name">Cocktails Non Alcoolisés</div><div class="item-desc">Mojito Virgin, Passion, Red Bull — Bellini — The Godfather — Watermelon Sugar — Piña Colada — Amazonico — Gingembre Naranja</div></div><div class="item-price">65 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Coca Cola / Zero</div></div><div class="item-price">35 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Schweppes Tonic / Citron</div></div><div class="item-price">35 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Red Bull</div></div><div class="item-price">45 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Bière Sans Alcool</div></div><div class="item-price">50 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Jus d'orange / Citron</div></div><div class="item-price">35 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Eau Minérale Naturelle 75cl</div></div><div class="item-price">40 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Acqua Panna 75cl</div></div><div class="item-price">65 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">San Pellegrino 75cl</div></div><div class="item-price">65 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Café / Café Americano</div></div><div class="item-price">25 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Café Latte / Capuchino</div></div><div class="item-price">30 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Sangria Sin Alcohol — Verre</div></div><div class="item-price">38 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Sangria Sin Alcohol — Carafe</div></div><div class="item-price">145 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Limonata — Verre</div></div><div class="item-price">38 Dh</div></div>
+      <div class="item"><div class="item-info"><div class="item-name">Limonata — Carafe</div></div><div class="item-price">145 Dh</div></div>
+    </div>
+
+  </div>
+</body>
+</html>

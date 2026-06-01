@@ -45,7 +45,6 @@
     .stat-number { font-family: 'Playfair Display', serif; font-size: 48px; color: white; font-weight: 400; }
     .stat-label { color: rgba(255,255,255,0.2); font-size: 9px; text-transform: uppercase; letter-spacing: 3px; margin-top: 8px; }
     .stat.highlight { border-color: rgba(255,255,255,0.2); }
-    .stat.highlight .stat-number { color: white; }
     .groups { 
       display: grid; grid-template-columns: 1fr 1fr; 
       gap: 24px; max-width: 1000px; 
@@ -91,10 +90,8 @@
     .position { font-family: 'Playfair Display', serif; font-size: 20px; color: white; }
     .time { font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 1px; margin-top: 3px; }
     .notified-badge {
-      display: inline-block;
-      font-size: 8px; letter-spacing: 2px;
-      color: rgba(255,255,255,0.5);
-      border: 1px solid rgba(255,255,255,0.2);
+      display: inline-block; font-size: 8px; letter-spacing: 2px;
+      color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2);
       padding: 2px 8px; margin-top: 3px;
     }
     .persons-badge {
@@ -164,28 +161,28 @@
     <div class="group">
       <div class="group-header">
         <div>
-          <div class="group-title">3 — 5 Personnes</div>
-          <div class="group-count"><span id="count-35">0</span> en attente</div>
+          <div class="group-title">3 — 4 Personnes</div>
+          <div class="group-count"><span id="count-34">0</span> en attente</div>
         </div>
-        <button class="btn" onclick="tableLibre(35)" id="btn-35">Table libre</button>
+        <button class="btn" onclick="tableLibre(34)" id="btn-34">Table libre</button>
       </div>
       <table>
         <thead><tr><th>#</th><th>Nom</th><th>Pers.</th><th></th></tr></thead>
-        <tbody id="group-35"><tr><td colspan="4" class="empty">Aucun</td></tr></tbody>
+        <tbody id="group-34"><tr><td colspan="4" class="empty">Aucun</td></tr></tbody>
       </table>
     </div>
 
     <div class="group">
       <div class="group-header">
         <div>
-          <div class="group-title">6 — 8 Personnes</div>
-          <div class="group-count"><span id="count-68">0</span> en attente</div>
+          <div class="group-title">5 — 8 Personnes</div>
+          <div class="group-count"><span id="count-58">0</span> en attente</div>
         </div>
-        <button class="btn" onclick="tableLibre(68)" id="btn-68">Table libre</button>
+        <button class="btn" onclick="tableLibre(58)" id="btn-58">Table libre</button>
       </div>
       <table>
         <thead><tr><th>#</th><th>Nom</th><th>Pers.</th><th></th></tr></thead>
-        <tbody id="group-68"><tr><td colspan="4" class="empty">Aucun</td></tr></tbody>
+        <tbody id="group-58"><tr><td colspan="4" class="empty">Aucun</td></tr></tbody>
       </table>
     </div>
 
@@ -210,8 +207,8 @@
     function getGroup(persons) {
       const p = parseInt(persons) || 1;
       if (p <= 2) return 2;
-      if (p <= 5) return 35;
-      if (p <= 8) return 68;
+      if (p <= 4) return 34;
+      if (p <= 8) return 58;
       return 9;
     }
 
@@ -238,12 +235,12 @@
         const totalPersons = waiting.reduce((sum, c) => sum + (parseInt(c.persons) || 1), 0);
         document.getElementById('total-persons').textContent = totalPersons;
 
-        const groups = { 2: [], 35: [], 68: [], 9: [] };
+        const groups = { 2: [], 34: [], 58: [], 9: [] };
         data.forEach(c => groups[getGroup(c.persons)].push(c));
 
         renderGroup('group-2', 'count-2', 'btn-2', groups[2]);
-        renderGroup('group-35', 'count-35', 'btn-35', groups[35]);
-        renderGroup('group-68', 'count-68', 'btn-68', groups[68]);
+        renderGroup('group-34', 'count-34', 'btn-34', groups[34]);
+        renderGroup('group-58', 'count-58', 'btn-58', groups[58]);
         renderGroup('group-9', 'count-9', 'btn-9', groups[9]);
       } catch(e) {}
     }
@@ -271,7 +268,7 @@
           <td><span class="persons-badge">${c.persons || 1}</span></td>
           <td>
             ${c.status === 'notified' ? `
-              <button class="btn-confirm" onclick="confirm(${c.id})">Entré</button>
+              <button class="btn-confirm" onclick="confirmClient(${c.id})">Entré</button>
               <button class="btn-cancel" onclick="cancelClient(${c.id})">✕</button>
             ` : ''}
           </td>
@@ -280,7 +277,7 @@
     }
 
     async function tableLibre(group) {
-      const groupMap = { 2: [1,2], 35: [3,4,5], 68: [6,7,8], 9: [9,10,11,12] };
+      const groupMap = { 2: [1,2], 34: [3,4], 58: [5,6,7,8], 9: [9,10,11,12] };
       const range = groupMap[group];
 
       const res = await fetch(`https://waitlist-app-s8lr.onrender.com/waitlist/${RESTAURANT_ID}`);
@@ -295,12 +292,10 @@
         body: JSON.stringify({ restaurantId: RESTAURANT_ID, customerId: next.id })
       });
       const result = await res2.json();
-      if (result.success) {
-        loadWaitlist();
-      }
+      if (result.success) loadWaitlist();
     }
 
-    async function confirm(id) {
+    async function confirmClient(id) {
       await fetch('https://waitlist-app-s8lr.onrender.com/confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -15,8 +15,7 @@
       color: white;
     }
     .bg-lines {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image: 
         linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
@@ -40,17 +39,17 @@
     .stats {
       display: flex; justify-content: center; gap: 16px;
       margin-bottom: 40px; position: relative; z-index: 1;
+      flex-wrap: wrap;
     }
     .stat { border: 1px solid rgba(255,255,255,0.08); padding: 20px 32px; text-align: center; }
     .stat-number { font-family: 'Playfair Display', serif; font-size: 48px; color: white; font-weight: 400; }
     .stat-label { color: rgba(255,255,255,0.2); font-size: 9px; text-transform: uppercase; letter-spacing: 3px; margin-top: 8px; }
+    .stat.highlight { border-color: rgba(255,255,255,0.2); }
+    .stat.highlight .stat-number { color: white; }
     .groups { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 24px; 
-      max-width: 1000px; 
-      margin: 0 auto;
-      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr; 
+      gap: 24px; max-width: 1000px; 
+      margin: 0 auto; position: relative; z-index: 1;
     }
     .group { border: 1px solid rgba(255,255,255,0.08); }
     .group-header {
@@ -62,16 +61,17 @@
     .group-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 400; }
     .group-count { color: rgba(255,255,255,0.3); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
     .btn {
-      padding: 10px 20px;
-      background: white; color: #000;
-      border: none; font-size: 9px;
-      font-weight: 600; cursor: pointer;
-      letter-spacing: 2px; text-transform: uppercase;
-      transition: all 0.3s; font-family: 'Inter', sans-serif;
-      white-space: nowrap;
+      padding: 10px 20px; background: white; color: #000;
+      border: none; font-size: 9px; font-weight: 600;
+      cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
+      transition: all 0.3s; font-family: 'Inter', sans-serif; white-space: nowrap;
     }
     .btn:hover { background: #ddd; }
     .btn:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.2); cursor: not-allowed; }
+    .btn-confirm { background: white; color: #000; padding: 6px 14px; font-size: 8px; letter-spacing: 1px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+    .btn-confirm:hover { background: #ddd; }
+    .btn-cancel { background: transparent; color: rgba(255,255,255,0.3); padding: 6px 10px; font-size: 8px; letter-spacing: 1px; border: 1px solid rgba(255,255,255,0.15); cursor: pointer; font-family: 'Inter', sans-serif; margin-left: 6px; }
+    .btn-cancel:hover { color: white; border-color: white; }
     table { width: 100%; border-collapse: collapse; }
     th {
       color: rgba(255,255,255,0.2); padding: 12px 16px;
@@ -80,14 +80,23 @@
       font-weight: 400; border-bottom: 1px solid rgba(255,255,255,0.04);
     }
     td {
-      padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.03);
+      padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03);
       color: rgba(255,255,255,0.7); font-size: 13px;
       font-weight: 300; letter-spacing: 1px;
+      vertical-align: middle;
     }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: rgba(255,255,255,0.02); }
+    tr.notified td { background: rgba(255,255,255,0.04); }
     .position { font-family: 'Playfair Display', serif; font-size: 20px; color: white; }
     .time { font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 1px; margin-top: 3px; }
+    .notified-badge {
+      display: inline-block;
+      font-size: 8px; letter-spacing: 2px;
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 2px 8px; margin-top: 3px;
+    }
     .persons-badge {
       border: 1px solid rgba(255,255,255,0.12);
       color: rgba(255,255,255,0.4); padding: 2px 10px;
@@ -98,9 +107,7 @@
       padding: 32px; font-size: 10px;
       letter-spacing: 3px; text-transform: uppercase;
     }
-    @media (max-width: 600px) {
-      .groups { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 600px) { .groups { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -129,6 +136,14 @@
       <div class="stat-number" id="total-persons">0</div>
       <div class="stat-label">Personnes</div>
     </div>
+    <div class="stat highlight">
+      <div class="stat-number" id="served-today">0</div>
+      <div class="stat-label">Servis aujourd'hui</div>
+    </div>
+    <div class="stat highlight">
+      <div class="stat-number" id="persons-today">0</div>
+      <div class="stat-label">Couverts aujourd'hui</div>
+    </div>
   </div>
 
   <div class="groups">
@@ -141,8 +156,8 @@
         <button class="btn" onclick="tableLibre(2)" id="btn-2">Table libre</button>
       </div>
       <table>
-        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th></tr></thead>
-        <tbody id="group-2"><tr><td colspan="3" class="empty">Aucun</td></tr></tbody>
+        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th><th></th></tr></thead>
+        <tbody id="group-2"><tr><td colspan="4" class="empty">Aucun</td></tr></tbody>
       </table>
     </div>
 
@@ -155,8 +170,8 @@
         <button class="btn" onclick="tableLibre(35)" id="btn-35">Table libre</button>
       </div>
       <table>
-        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th></tr></thead>
-        <tbody id="group-35"><tr><td colspan="3" class="empty">Aucun</td></tr></tbody>
+        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th><th></th></tr></thead>
+        <tbody id="group-35"><tr><td colspan="4" class="empty">Aucun</td></tr></tbody>
       </table>
     </div>
 
@@ -169,8 +184,8 @@
         <button class="btn" onclick="tableLibre(68)" id="btn-68">Table libre</button>
       </div>
       <table>
-        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th></tr></thead>
-        <tbody id="group-68"><tr><td colspan="3" class="empty">Aucun</td></tr></tbody>
+        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th><th></th></tr></thead>
+        <tbody id="group-68"><tr><td colspan="4" class="empty">Aucun</td></tr></tbody>
       </table>
     </div>
 
@@ -183,8 +198,8 @@
         <button class="btn" onclick="tableLibre(9)" id="btn-9">Table libre</button>
       </div>
       <table>
-        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th></tr></thead>
-        <tbody id="group-9"><tr><td colspan="3" class="empty">Aucun</td></tr></tbody>
+        <thead><tr><th>#</th><th>Nom</th><th>Pers.</th><th></th></tr></thead>
+        <tbody id="group-9"><tr><td colspan="4" class="empty">Aucun</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -201,8 +216,16 @@
     }
 
     function formatTime(dateStr) {
-      const date = new Date(dateStr);
-      return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      return new Date(dateStr).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch(`https://waitlist-app-s8lr.onrender.com/stats/${RESTAURANT_ID}`);
+        const data = await res.json();
+        document.getElementById('served-today').textContent = data.total_clients || 0;
+        document.getElementById('persons-today').textContent = data.total_persons || 0;
+      } catch(e) {}
     }
 
     async function loadWaitlist() {
@@ -210,8 +233,9 @@
         const res = await fetch(`https://waitlist-app-s8lr.onrender.com/waitlist/${RESTAURANT_ID}`);
         const data = await res.json();
 
-        document.getElementById('total-count').textContent = data.length;
-        const totalPersons = data.reduce((sum, c) => sum + (parseInt(c.persons) || 1), 0);
+        const waiting = data.filter(c => c.status === 'waiting');
+        document.getElementById('total-count').textContent = waiting.length;
+        const totalPersons = waiting.reduce((sum, c) => sum + (parseInt(c.persons) || 1), 0);
         document.getElementById('total-persons').textContent = totalPersons;
 
         const groups = { 2: [], 35: [], 68: [], 9: [] };
@@ -221,28 +245,36 @@
         renderGroup('group-35', 'count-35', 'btn-35', groups[35]);
         renderGroup('group-68', 'count-68', 'btn-68', groups[68]);
         renderGroup('group-9', 'count-9', 'btn-9', groups[9]);
-      } catch(e) { console.error(e); }
+      } catch(e) {}
     }
 
     function renderGroup(bodyId, countId, btnId, data) {
       const tbody = document.getElementById(bodyId);
       const btn = document.getElementById(btnId);
-      document.getElementById(countId).textContent = data.length;
-      btn.disabled = data.length === 0;
+      const waiting = data.filter(c => c.status === 'waiting');
+      document.getElementById(countId).textContent = waiting.length;
+      btn.disabled = waiting.length === 0;
 
       if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="empty">Aucun</td></tr>';
         return;
       }
 
       tbody.innerHTML = data.map((c, i) => `
-        <tr>
+        <tr class="${c.status === 'notified' ? 'notified' : ''}">
           <td class="position">${i + 1}</td>
           <td>
             ${c.name}
             <div class="time">${formatTime(c.created_at)}</div>
+            ${c.status === 'notified' ? '<div class="notified-badge">NOTIFIÉ</div>' : ''}
           </td>
           <td><span class="persons-badge">${c.persons || 1}</span></td>
+          <td>
+            ${c.status === 'notified' ? `
+              <button class="btn-confirm" onclick="confirm(${c.id})">Entré</button>
+              <button class="btn-cancel" onclick="cancelClient(${c.id})">✕</button>
+            ` : ''}
+          </td>
         </tr>
       `).join('');
     }
@@ -253,7 +285,7 @@
 
       const res = await fetch(`https://waitlist-app-s8lr.onrender.com/waitlist/${RESTAURANT_ID}`);
       const data = await res.json();
-      const next = data.find(c => range.includes(parseInt(c.persons) || 1));
+      const next = data.find(c => c.status === 'waiting' && range.includes(parseInt(c.persons) || 1));
 
       if (!next) { alert('Aucun client en attente dans ce groupe'); return; }
 
@@ -264,13 +296,32 @@
       });
       const result = await res2.json();
       if (result.success) {
-        alert(`✦ ${result.notified.name} a été notifié !`);
         loadWaitlist();
       }
     }
 
+    async function confirm(id) {
+      await fetch('https://waitlist-app-s8lr.onrender.com/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customerId: id })
+      });
+      loadWaitlist();
+      loadStats();
+    }
+
+    async function cancelClient(id) {
+      await fetch('https://waitlist-app-s8lr.onrender.com/cancel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customerId: id })
+      });
+      loadWaitlist();
+    }
+
     loadWaitlist();
-    setInterval(loadWaitlist, 5000);
+    loadStats();
+    setInterval(() => { loadWaitlist(); loadStats(); }, 5000);
   </script>
 </body>
 </html>

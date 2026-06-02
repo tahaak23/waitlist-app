@@ -56,7 +56,7 @@ app.post('/join', async (req, res) => {
   res.json({ success: true, position, message: `Vous êtes numéro ${position} dans la file` });
 });
 
-// Notifier le client — ne pas supprimer encore
+// Notifier le client — SMS via Twilio
 app.post('/table-free', async (req, res) => {
   const { restaurantId, customerId } = req.body;
   let next;
@@ -71,14 +71,21 @@ app.post('/table-free', async (req, res) => {
 
   if (next) {
     await pool.query('UPDATE customers SET status = $1, notified_at = NOW() WHERE id = $2', ['notified', next.id]);
-    const twilio = require('twilio');
-    const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-    client.messages.create({
-      from: process.env.TWILIO_WHATSAPP_FROM,
-      to: `whatsapp:${next.phone}`,
-      body: `Bonjour ${next.name} ! 🎉 Votre table est prête, vous pouvez entrer maintenant chez La Boca Negra !\n\n• Vous disposez de 5 minutes pour vous présenter, passé ce délai votre table sera annulée.\n• After 5 minutes no show, your table will be cancelled.\n• Después de 5 minutos sin presentarse, su mesa será cancelada.\n• Na 5 minuten no show zal uw tafel geannuleerd worden.`
-    });
-    res.json({ success: true, notified: next });
+    
+    try {
+      const twilio = require('twilio');
+      const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+      await client.messages.create({
+        from: process.env.TWILIO_SMS_FROM,
+        to: next.phone,
+        body: `Bonjour ${next.name} ! Votre table est prete chez La Boca Negra ! Vous avez 5 minutes pour vous presenter. / Your table is ready! You have 5 minutes. / Su mesa esta lista! Tiene 5 minutos.`
+      });
+      res.json({ success: true, notified: next });
+    } catch (err) {
+      console.error('SMS error:', err.message);
+      res.json({ success: true, notified: next, sms_error: err.message });
+    }
+
   } else {
     res.json({ success: false, message: 'Pas de clients en attente' });
   }

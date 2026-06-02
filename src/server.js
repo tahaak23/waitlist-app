@@ -31,7 +31,6 @@ async function initDB() {
   await pool.query(`ALTER TABLE customers ADD COLUMN IF NOT EXISTS persons INTEGER DEFAULT 1`);
   await pool.query(`ALTER TABLE customers ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'waiting'`);
   await pool.query(`ALTER TABLE customers ADD COLUMN IF NOT EXISTS notified_at TIMESTAMP`);
-  
   await pool.query(`
     CREATE TABLE IF NOT EXISTS served_log (
       id SERIAL PRIMARY KEY,
@@ -56,11 +55,9 @@ app.post('/join', async (req, res) => {
   res.json({ success: true, position, message: `Vous êtes numéro ${position} dans la file` });
 });
 
-// Notifier le client — SMS via Twilio
 app.post('/table-free', async (req, res) => {
   const { restaurantId, customerId } = req.body;
   let next;
-
   if (customerId) {
     const result = await pool.query('SELECT * FROM customers WHERE id = $1', [customerId]);
     next = result.rows[0];
@@ -68,30 +65,37 @@ app.post('/table-free', async (req, res) => {
     const result = await pool.query('SELECT * FROM customers WHERE restaurant_id = $1 AND status = $2 ORDER BY position ASC LIMIT 1', [restaurantId, 'waiting']);
     next = result.rows[0];
   }
-
   if (next) {
     await pool.query('UPDATE customers SET status = $1, notified_at = NOW() WHERE id = $2', ['notified', next.id]);
-    
     try {
-      const twilio = require('twilio');
-      const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-      await client.messages.create({
-        from: process.env.TWILIO_SMS_FROM,
-        to: next.phone,
-        body: `Bonjour ${next.name} ! Votre table est prete chez La Boca Negra ! Vous avez 5 minutes pour vous presenter. / Your table is ready! You have 5 minutes. / Su mesa esta lista! Tiene 5 minutos.`
-      });
+      const response = await fetch(
+        `https://graph.facebook.com/v19.0/${process.env.WHATSAPP_PHONE_ID}/messages`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.WHATSAPP_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            messaging_product: 'whatsapp',
+            to: next.phone,
+            type: 'text',
+            text: { body: `Bonjour ${next.name} ! Votre table est prete chez La Boca Negra ! Vous avez 5 minutes pour vous presenter.\n\nYour table is ready! You have 5 minutes.\n\nSu mesa esta lista! Tiene 5 minutos.` }
+          })
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) console.error('WhatsApp error:', JSON.stringify(data));
       res.json({ success: true, notified: next });
     } catch (err) {
-      console.error('SMS error:', err.message);
-      res.json({ success: true, notified: next, sms_error: err.message });
+      console.error('WhatsApp error:', err.message);
+      res.json({ success: true, notified: next, error: err.message });
     }
-
   } else {
     res.json({ success: false, message: 'Pas de clients en attente' });
   }
 });
 
-// Confirmer l'entrée du client
 app.post('/confirm', async (req, res) => {
   const { customerId } = req.body;
   const result = await pool.query('SELECT * FROM customers WHERE id = $1', [customerId]);
@@ -105,7 +109,6 @@ app.post('/confirm', async (req, res) => {
   }
 });
 
-// Annuler un client (no show)
 app.post('/cancel', async (req, res) => {
   const { customerId } = req.body;
   await pool.query('DELETE FROM customers WHERE id = $1', [customerId]);
@@ -117,13 +120,10 @@ app.get('/waitlist/:restaurantId', async (req, res) => {
   res.json(result.rows);
 });
 
-// Stats du jour
 app.get('/stats/:restaurantId', async (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   const result = await pool.query(
-    `SELECT COUNT(*) as total_clients, COALESCE(SUM(persons), 0) as total_persons 
-     FROM served_log 
-     WHERE restaurant_id = $1 AND DATE(served_at) = $2`,
+    `SELECT COUNT(*) as total_clients, COALESCE(SUM(persons), 0) as total_persons FROM served_log WHERE restaurant_id = $1 AND DATE(served_at) = $2`,
     [req.params.restaurantId, today]
   );
   res.json(result.rows[0]);
@@ -133,11 +133,7 @@ app.get('/qrcode/:restaurantId', async (req, res) => {
   const { restaurantId } = req.params;
   const url = `https://waitlist-app-s8lr.onrender.com/?restaurant=${restaurantId}`;
   const qr = await QRCode.toDataURL(url);
-  res.send(`<html><body style="text-align:center;padding:40px;background:#000">
-    <h2 style="color:white;font-family:serif">QR Code — La Boca Negra</h2>
-    <img src="${qr}" style="margin-top:20px" />
-    <p style="color:rgba(255,255,255,0.5);margin-top:16px;font-family:sans-serif">Les clients scannent ce code pour rejoindre la file</p>
-  </body></html>`);
+  res.send(`<html><body style="text-align:center;padding:40px;background:#000"><h2 style="color:white;font-family:serif">QR Code — La Boca Negra</h2><img src="${qr}" style="margin-top:20px" /><p style="color:rgba(255,255,255,0.5);margin-top:16px;font-family:sans-serif">Les clients scannent ce code pour rejoindre la file</p></body></html>`);
 });
 
 const PORT = process.env.PORT || 3000;

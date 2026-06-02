@@ -83,7 +83,9 @@ app.post('/table-free', async (req, res) => {
             messaging_product: 'whatsapp',
             to: next.phone,
             type: 'text',
-            text: { body: `Bonjour ${next.name} ! Votre table est prete chez La Boca Negra ! Vous avez 5 minutes pour vous presenter.\n\nYour table is ready! You have 5 minutes.\n\nSu mesa esta lista! Tiene 5 minutos.` }
+            text: { body: `Bonjour ${next.name} ! Votre table est prete chez La Boca Negra ! Vous avez 5 minutes pour vous presenter.\n\nYour table is ready! You have 5 minutes.\n\nSu mesa esta lista! Tiene 5 minutos.
+
+Na 5 minuten no show zal uw tafel geannuleerd worden.` }
           })
         }
       );
